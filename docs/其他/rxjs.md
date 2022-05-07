@@ -113,7 +113,7 @@ subs2$.unsubscribe();
 
 ## Observable
 
-此处不是RxJS中Observable对象的实现，只是举个例子，便于理解
+此处不是 RxJS 中 Observable 对象的实现，只是举个例子，便于理解
 
 ```js
 class Observable {
@@ -147,3 +147,13 @@ const observer = {
 };
 obs$.subscribe();
 ```
+
+## 一些概念
+
+### 什么时候用 RxJS
+
+当你遇到一个以上异步操作，且其中至少一个异步操作响应时间不可控的时候，你需要协调多个异步操作的“发出”和“响应”。
+
+使用RxJS可以很简洁地实现对大量异步操作的“发出”和“响应”。
+
+使用者需要对Observable具体提供什么非常熟悉，才能用operator去操作得到想要的数据
