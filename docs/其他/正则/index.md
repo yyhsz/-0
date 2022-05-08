@@ -66,3 +66,66 @@ i：ignoreCase忽略大小写
 m：multiline多行匹配
 g：global全局匹配
 ```
+
+## 元字符详解
+
+### 转义符
+
+```js
+let reg = /^2.3$/; // .不是小数点，是除/n外任意字符
+console.log(reg.test('2.3')); //true
+console.log(reg.test('23')); //false
+
+let reg1 = /^2\.3$/; //
+console.log(reg1.test('2.3')); //true
+console.log(reg1.test('2@3')); //false
+```
+
+一个比较恶心的例子，字符串中的\也有特殊含义，因为有回车等符号
+
+```js
+let reg = /^\\d$/; // 把\转义
+console.log(reg.test('\\d')); //true;字符串中的/也得小心处理才行;
+console.log(reg.test('d')); //false
+
+let reg = new RegExp('\\d+'); //reg === /\d+/；通过字符串形式创建正则的时候也需要处理
+```
+
+### 或字符
+
+直接 x|y 会有很乱的优先级问题，一般用小括号来调整优先级
+
+```js
+let reg = /^18|29$/; //
+console.log(reg.test('18')); //true
+console.log(reg.test('29')); //true
+console.log(reg.test('129')); //true
+console.log(reg.test('189')); //true
+console.log(reg.test('1289')); //true
+console.log(reg.test('829')); //true
+console.log(reg.test('182')); //true
+console.log(reg.test('82')); //false
+```
+
+### []
+
+中括号中的字符一般代表本身的含义，除了转义字符
+
+```js
+let reg = /^[@+]+/; //中括号中的加号就是加号的意思
+console.log(reg.test('@@')); //true
+console.log(reg.test('@+')); //true
+let reg1 = /^[@+]/;
+console.log(reg1.test('@+')); //false
+```
+
+中括号中不存在多位数
+
+```js
+let reg = /^[18]+/;
+console.log(reg.test('1')); //true
+console.log(reg.test('8')); //true
+console.log(reg.test('18')); //false
+let reg1 = /^[10-29]$/;  // 1或者0-2或者9
+let reg1 = /^[(10-29)]$/;  // 1或者‘(’或者0-2或者9或者‘)’
+```
