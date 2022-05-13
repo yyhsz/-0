@@ -55,3 +55,35 @@ function resolve(n) {
 如果我们自己在内存堆上实现栈，手动模拟入栈、出栈过程，这样任何递归代码都可以改写成看上去不是递归代码的样子。但是这种思路实际上是将递归改为了“手动”递归，本质并没有变，而且也并没有解决前面讲到的某些问题，徒增了实现的复杂度。
 
 ## 746 爬楼梯的最小花费
+
+这道题有个坑在于：爬到楼顶（第 n = cost.length 阶）的时候是不需要加花费的。
+
+而在楼顶（第 n = cost.length 阶）之前，爬到某一层都要算上这一层的花费。可以和普通的爬楼梯问题对比一下。
+
+因此递推公式不能简单的是：`f(n) = Math.min(f(n-1),f(n-2))`
+
+只有最后到楼顶才用上面这个递推公式，其他时候的递推公式是：
+`f(n) = Math.min(f(n-1),f(n-2)) + cost[n]`(要算上到这一层的花费)
+
+由于这种不一致，递归的函数要单独抽取出来：
+
+```js
+const map = {};
+var minCostClimbingStairs = function (cost) {
+  function x(n) {
+    if (n === 1 || n === 0) {
+      return cost[n];
+    }
+    if (map[n]) {
+      return map[n];
+    } else {
+      const res = Math.min(x(n - 1), x(n - 2)) + cost[n];
+      map[n] = res;
+      return res;
+    }
+  }
+  return Math.min(x(cost.length - 1), x(cost.length - 2));
+};
+```
+
+上面这种递归的做法需要用 map 去节省重复计算的内存，所以并不是很好，用动态规划的方式去做会更好。
