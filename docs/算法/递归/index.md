@@ -87,3 +87,19 @@ var minCostClimbingStairs = function (cost) {
 ```
 
 上面这种递归的做法需要用 map 去节省重复计算的内存，所以并不是很好，用动态规划的方式去做会更好。
+
+动态规划的做法：状态的转移
+
+```js
+var minCostClimbingStairs = function (cost) {
+  let prepre = cost[0];
+  let pre = cost[1];
+
+  for (let i = 2; i < cost.length; i++) {
+    const cur = Math.min(pre, prepre) + cost[i];
+    prepre = pre;
+    pre = cur;
+  }
+  return Math.min(pre, prepre);
+};
+```
