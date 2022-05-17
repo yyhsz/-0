@@ -75,3 +75,50 @@ function combine1(input1: number | string, input2: number | string) {
 ## Literal Type
 
 ## type alias
+
+## Function Type
+
+2 different way
+
+```ts
+//1.
+const add: (a: number, b: number) => number = (x, y) => x + y;
+//2. 其实此处可以不指明函数返回值类型，可以通过ts推断得出
+function add2(a: number, b: number): number {
+  return a + b;
+}
+```
+
+回调函数的类型限制
+
+```ts
+//该例子限定了cb 的类型，通过ts对cb的限定，不怕使用者乱传参导致报错，也不用做太多的容错处理
+const foo: (x: string, cb: (a: string) => string) => void = (x, cb) => {
+  cb(x);
+};
+```
+
+## void
+
+void 表示函数没有返回值，但实际上它并不检查限制函数返回值的任何操作，即你可以有返回值，但实际使用最好不应该有
+
+## never
+
+举几个情况会出现 never
+
+1. 函数内部出错，导致不会执行到返回值的代码
+2. 函数内出现无限循环
+
+## unknown
+
+unknown 类型一般不能被赋值给具体类型，如果要这样做，必须先进行判断，对 unknown 类型进行一个收窄
+
+```ts
+let a: unknown = 'aa';
+let b: string = a; //提示错误
+
+//对类型进行判断
+if (typeof a === 'string') {
+  b = a; //此时不提示错误
+}
+```
