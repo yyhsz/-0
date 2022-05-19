@@ -122,3 +122,25 @@ if (typeof a === 'string') {
   b = a; //此时不提示错误
 }
 ```
+
+## class
+
+### 几个修饰符
+
+private：只能在类内部操作的属性
+public：所有属性默认 public，无需特别声明
+protected：和 private 类似，但允许在子类中访问
+readonly：只读，和其他修饰符同时存在需要写在最后面
+
+### 一种简写
+
+在构造函数参数上直接用修饰符描述可以直接赋值得到该属性（实现继承时也是一样可以用）
+
+```ts
+class Child extends Parent {
+  constructor(Pname: string, private cNames: string[]) {
+    //不需要显式地声明this.cNames = cNames只需要写修饰符即可
+    super(Pname);
+  }
+}
+```
