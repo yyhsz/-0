@@ -125,11 +125,13 @@ if (typeof a === 'string') {
 
 ## class
 
+类的 getter/setter 可以是相同的属性名（通常是对一些 private 属性做 getter/setter，不希望外界直接访问到属性）
+
 ### 几个修饰符
 
 private：只能在类内部操作的属性
 public：所有属性默认 public，无需特别声明
-protected：和 private 类似，但允许在子类中访问
+protected：和 private 类似，但允许在自身和子类中访问
 readonly：只读，和其他修饰符同时存在需要写在最后面
 
 ### 一种简写
@@ -144,3 +146,9 @@ class Child extends Parent {
   }
 }
 ```
+
+### 方法重栽
+
+继承自父类的子类，对相同的方法名可以进行重载（和函数的重载一样吗）
+
+### 抽象类
